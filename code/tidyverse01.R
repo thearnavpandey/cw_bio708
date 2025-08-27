@@ -24,7 +24,16 @@ filter(iris_sub, Sepal.Length >= 5)
 
 filter(iris_sub, Sepal.Length < 5)
 
+filter(iris_sub, Sepal.Length <= 5)
 
+filter(iris_sub,
+       Sepal.Length < 5 & Species == "setosa")
+
+filter(iris_sub,
+       Sepal.Length < 5, Species == "setosa")
+
+filter(iris_sub,
+       Sepal.Length < 5 | Species == "setosa")
 
 arrange(iris_sub, Sepal.Length)
 
@@ -59,6 +68,18 @@ select(iris_sub, -ends_with("Width"))
 # named `x` as `row_id` when added
 mutate(iris_sub, row_id = x)
 
+#twice sepal.length and add as a new column
+mutate (iris_sub, 
+        sl_two_times = 2*Sepal.Length)
+
 #piping
+df_s1 <- select (iris_sub, Sepal.Length)
+df_sl_2times <- mutate (df_s1, twice = 2* Sepal.Length)
+print (df_sl_2times)
+
+df_tw <- iris_sub %>% 
+  select (Sepal.Length) %>% 
+  mutate (twice = 2* Sepal.Length)
+print (df_tw)
 
 
