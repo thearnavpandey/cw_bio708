@@ -29,12 +29,15 @@ df_eps <- iris_sub %>%
 
 
 # reshape -----------------------------------------------------------------
+##reshape to wide format
 iris_w <- iris_sub %>% 
   mutate(id = rep(1:3,3)) %>%  #add an ID column
   select (id, Sepal.Length, Species) %>% 
   pivot_wider(id_cols = "id", # unique row ID based on
             values_from = "Sepal.Length", # values in each cell from
             names_from = "Species") # new column names from
+
+##reshape to longer format
 iris_l <- iris_w %>% 
   pivot_longer (cols= c("setosa",
                        "versicolor",
