@@ -45,3 +45,31 @@ iris_l <- iris_w %>%
                names_to = "Species",
                values_to = "Sepal.Length")
 
+
+# join --------------------------------------------------------------------
+
+# matching by a single column
+## left join by "Species": one to one
+(df1 <- tibble(Species = c("A", "B", "C"),
+              x = c(1, 2, 3)))
+
+(df2 <- tibble(Species = c("A", "B", "C"),
+              y = c(4, 5, 6)))
+
+df12<-left_join (x = df1,
+           y = df2,
+           by = "Species")
+
+## what happens if df2 doesn't contain species B
+(df2_minus_B <- tibble(Species = c("A", "C"),
+                      y = c(4,6)))
+
+left_join (x = df1,
+          y = df2_minus_B,
+          by = "Species")
+
+left_join (x = df2_minus_B,
+           y = df1,
+           by = "Species")
+
+
