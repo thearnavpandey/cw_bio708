@@ -451,6 +451,34 @@ print(iris_sub)</code></pre>
 ##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
 ## 1          4.8         3.1          1.6         0.2 setosa 
 ## 2          4.3         3            1.1         0.1 setosa</code></pre>
+<pre class="r"><code>filter(iris_sub, Sepal.Length &lt;= 5)</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+## 1          4.8         3.1          1.6         0.2 setosa 
+## 2          4.3         3            1.1         0.1 setosa</code></pre>
+<pre class="r"><code>filter(iris_sub,
+       Sepal.Length &lt; 5 &amp; Species == &quot;setosa&quot;)</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+## 1          4.8         3.1          1.6         0.2 setosa 
+## 2          4.3         3            1.1         0.1 setosa</code></pre>
+<pre class="r"><code>filter(iris_sub,
+       Sepal.Length &lt; 5, Species == &quot;setosa&quot;)</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+## 1          4.8         3.1          1.6         0.2 setosa 
+## 2          4.3         3            1.1         0.1 setosa</code></pre>
+<pre class="r"><code>filter(iris_sub,
+       Sepal.Length &lt; 5 | Species == &quot;setosa&quot;)</code></pre>
+<pre><code>## # A tibble: 3 × 5
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+## 1          4.8         3.1          1.6         0.2 setosa 
+## 2          5.8         4            1.2         0.2 setosa 
+## 3          4.3         3            1.1         0.1 setosa</code></pre>
 <pre class="r"><code>arrange(iris_sub, Sepal.Length)</code></pre>
 <pre><code>## # A tibble: 9 × 5
 ##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species   
@@ -605,7 +633,53 @@ mutate(iris_sub, row_id = x)</code></pre>
 ## 7          6.3         3.4          5.6         2.4 virginica       7
 ## 8          5.7         2.5          5           2   virginica       8
 ## 9          6.7         3.3          5.7         2.1 virginica       9</code></pre>
-<pre class="r"><code>#piping</code></pre>
+<pre class="r"><code>#twice sepal.length and add as a new column
+mutate (iris_sub, 
+        sl_two_times = 2*Sepal.Length)</code></pre>
+<pre><code>## # A tibble: 9 × 6
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species    sl_two_times
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;             &lt;dbl&gt;
+## 1          4.8         3.1          1.6         0.2 setosa              9.6
+## 2          5.8         4            1.2         0.2 setosa             11.6
+## 3          4.3         3            1.1         0.1 setosa              8.6
+## 4          6.9         3.1          4.9         1.5 versicolor         13.8
+## 5          6.1         3            4.6         1.4 versicolor         12.2
+## 6          5.8         2.6          4           1.2 versicolor         11.6
+## 7          6.3         3.4          5.6         2.4 virginica          12.6
+## 8          5.7         2.5          5           2   virginica          11.4
+## 9          6.7         3.3          5.7         2.1 virginica          13.4</code></pre>
+<pre class="r"><code>#piping
+df_s1 &lt;- select (iris_sub, Sepal.Length)
+df_sl_2times &lt;- mutate (df_s1, twice = 2* Sepal.Length)
+print (df_sl_2times)</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##   Sepal.Length twice
+##          &lt;dbl&gt; &lt;dbl&gt;
+## 1          4.8   9.6
+## 2          5.8  11.6
+## 3          4.3   8.6
+## 4          6.9  13.8
+## 5          6.1  12.2
+## 6          5.8  11.6
+## 7          6.3  12.6
+## 8          5.7  11.4
+## 9          6.7  13.4</code></pre>
+<pre class="r"><code>df_tw &lt;- iris_sub %&gt;% 
+  select (Sepal.Length) %&gt;% 
+  mutate (twice = 2* Sepal.Length)
+print (df_tw)</code></pre>
+<pre><code>## # A tibble: 9 × 2
+##   Sepal.Length twice
+##          &lt;dbl&gt; &lt;dbl&gt;
+## 1          4.8   9.6
+## 2          5.8  11.6
+## 3          4.3   8.6
+## 4          6.9  13.8
+## 5          6.1  12.2
+## 6          5.8  11.6
+## 7          6.3  12.6
+## 8          5.7  11.4
+## 9          6.7  13.4</code></pre>
 
 
 
