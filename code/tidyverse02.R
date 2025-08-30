@@ -75,6 +75,6 @@ left_join (x = df2_minus_B,
 
 # additional resource -----------------------------------------------------
 
-#library (swirl)
-#install_course_github("sysilviakim", "swirl-tidy")
+library (swirl)
+install_course_github("sysilviakim", "swirl-tidy")
 
