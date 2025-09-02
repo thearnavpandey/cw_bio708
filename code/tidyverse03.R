@@ -74,7 +74,7 @@ g_col <- iris %>%
   ggplot(mapping = aes(x = Sepal.Length,
                        y = Sepal.Width, 
                        color = Species)) +
-  geom_point
+  geom_point()
 
 # pitfall, when you color points or anything
 #iris %>% 
