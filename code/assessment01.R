@@ -18,8 +18,8 @@ v_abc <- c(v_a,v_b, v_c)
 # Select only the positive numbers (> 0) from `v_x`, calculate their mean, and assign it to `mu_x_plus`.
 set.seed(100)
 v_x <- rnorm(100)
-v_positive = v_x[v_x>0]
-mu_x_plus<-mean(v_positive)
+v_positive <- v_x[v_x>0]
+mu_x_plus<- mean(v_positive)
 
 # 4: Create a numeric matrix with the numbers 1 through 9 arranged in 3 rows × 3 columns.  
 # Assign it to `m_num`.
@@ -64,7 +64,7 @@ colnames(df_mtcars)
 v_make<-rownames(mtcars)
 
 # 10: Add `v_make` as a new column to `df_mtcars` and name the column `"make"`.
-mutate(df_mtcars, make = v_make)
+df_mtcars<-mutate(df_mtcars, make = v_make)
 
 # 11: Filter `df_mtcars` to include only rows where:  
 # - `mpg` is less than 20 AND  
@@ -88,8 +88,11 @@ n_make<-df_mtcars %>%
 # Add it to `df_mtcars` as a new column named `f_cyl` using `mutate()` function.
 
 f_cyl<-factor(df_mtcars$cyl) 
-mutate(df_mtcars, f_cyl<-factor(df_mtcars$cyl)
+df_mtcars<-mutate(df_mtcars, f_cyl= f_cyl)
 
+#Alternative
+#df_mtcars <- df_mtcars %>%
+#  mutate(f_cyl = factor(cyl))
 
 # 15: Draw a box plot showing car weight (`wt`) for each number of cylinders (`f_cyl`).
 df_mtcars %>% 
@@ -104,7 +107,12 @@ df_mtcars %>%
 # 17: Identify the heaviest car make (`wt`) among cars with 6 cylinders (`cyl`).
 df_mtcars %>% 
   filter(cyl == 6) %>% 
-  max(df_mtcars$wt)
+  summarize(m_wt = max(wt))
+
+#Alternative:
+# df_mtcars %>%
+# filter(cyl == 6) %>%
+# arrange(desc(wt))
 
 # 18: Create a histogram showing the distribution of 1/4 mile time (`qsec`).
 df_mtcars %>% 
@@ -138,7 +146,7 @@ df_fish<-left_join(x=df_length,
 # 20: Draw a scatter plot (point plot) of `length` vs. `weight` from `df_fish`,  
 # coloring the points by species code (`sp_code`).
 df_fish %>% 
-  ggplot(mapping=aes(x = df_length, 
-                     y = df_weight,
+  ggplot(mapping=aes(x = length, 
+                     y = weight,
                      color = sp_code)) +
   geom_point()
