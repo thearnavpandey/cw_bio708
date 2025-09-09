@@ -53,7 +53,7 @@ cv <- s/ mean (v_b)
 # MAD / median
 mad_b <- median(abs(v_b -median (v_b)))
 med_b <- median(v_b)
-mad2med <- mad/med
+mad2med <- mad_b/med_b
 
 
 
