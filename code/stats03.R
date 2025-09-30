@@ -103,6 +103,7 @@ df_prob_pd <- tibble (x = x,
 
 df_count %>% 
   ggplot(aes (x = count))+
+  
   geom_histogram(bindwidth = 0.5)+
   geom_line(data = df_prob_pd, 
             mapping = aes(x = x,
