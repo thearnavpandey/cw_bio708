@@ -68,6 +68,7 @@ for (i in 1:100) {
 s_mu20 <- sd(mu20)
 
 (s_mu20 < s_mu5)
+#Yes, it s_mu20 is smaller than s_mu5.
 
 # probability density -----------------------------------------------------
 
@@ -130,7 +131,7 @@ sigma2
 # 2. Perform a t-test comparing "Petal.Length" between "setosa" and "versicolor".
 #    Choose the appropriate `var.equal` option depending on whether the SDs appear equal.
 
-# since variances for the Petal.Length is different across species, using var.equal = FALSE.
+# Since variances for the Petal.Length is different across species, using var.equal = FALSE.
 x <- df_iris %>%
   filter(Species == "setosa") %>%  
   pull(Petal.Length)
