@@ -3,6 +3,7 @@
 # Call suitable packages as needed.
 
 library(tidyverse)
+pacman::p_load(tidyverse, patchwork, janitor, palmerpenguins, here)
 
 # CO2 dataset -------------------------------------------------------------
 
@@ -23,11 +24,11 @@ head(CO2)
 # Q1
 # CO2 dataframe is a base dataframe. Convert this to a class `tibble`
 # then assign to `df_co2`
-
+df_co2 <- as_tibble(CO2)
 
 # Q2
 # Convert column names to lowercase and reassign to `df_co2`
-
+df_co2 <- clean_names (df_co2)
 
 # Q3
 # Create scatter plots of CO₂ uptake versus ambient CO₂ concentration using `df_co2`.
@@ -35,6 +36,25 @@ head(CO2)
 # - The y-axis should represent CO₂ assimilation rate
 # - Color the points by treatment.
 # - Create separate panels for each plant type (Quebec vs Mississippi) and combine the plots.
+g_quebec <- df_co2 %>% 
+  filter(type == "Quebec") %>% 
+  ggplot(aes(x = conc,
+             y = uptake,
+         color = treatment))+
+  geom_point()+
+  labs (x = "Ambient CO2 concentration (mL/L)",
+        y = "CO2 assimilation rate (µmol/m²/sec)")
+
+g_mississippi <- df_co2 %>% 
+  filter(type == "Mississippi") %>% 
+  ggplot(aes(x = conc,
+             y = uptake,
+             color = treatment))+
+  geom_point()+
+  labs (x = "Ambient CO2 concentration (mL/L)",
+        y = "CO2 assimilation rate (µmol/m²/sec)")
+
+g_quebec+g_mississippi 
 
 
 # Q4
@@ -51,7 +71,20 @@ head(CO2)
 # - The interaction between concentration and treatment
 # 
 # Fit these models separately for each plant origin.
+df_quebec <- df_co2 %>% 
+  filter(type == "Quebec")
+  
+m_quebec <- lm (uptake ~ conc * treatment, 
+                data = df_quebec)
 
+df_mississippi <- df_co2 %>% 
+  filter(type == "Mississippi")
+
+m_mississippi <- lm (uptake ~ conc * treatment,
+                     data = df_mississippi)
+
+summary(m_quebec)
+summary(m_mississippi)
 
 # Q5
 # Based on the models fitted in Q4 for Quebec and Mississippi plants,
@@ -61,7 +94,7 @@ head(CO2)
 # Mississippi plants, and use the model results to support your answers.
 
 # ENTER YOUR ANSWER HERE as COMMENT:
-# (no coding required for this question)
+# (no coding required for this question) 
 
 
 # BCI data ----------------------------------------------------------------
