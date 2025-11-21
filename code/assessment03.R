@@ -3,7 +3,8 @@
 # Call suitable packages as needed.
 
 library(tidyverse)
-pacman::p_load(tidyverse, patchwork, janitor, palmerpenguins, here)
+
+pacman::p_load(tidyverse, patchwork)
 
 # CO2 dataset -------------------------------------------------------------
 
@@ -28,7 +29,7 @@ df_co2 <- as_tibble(CO2)
 
 # Q2
 # Convert column names to lowercase and reassign to `df_co2`
-df_co2 <- clean_names (df_co2)
+colnames(df_co2) <- str_to_lower(colnames(df_co2))
 
 # Q3
 # Create scatter plots of CO₂ uptake versus ambient CO₂ concentration using `df_co2`.
@@ -54,7 +55,7 @@ g_mississippi <- df_co2 %>%
   labs (x = "Ambient CO2 concentration (mL/L)",
         y = "CO2 assimilation rate (µmol/m²/sec)")
 
-g_quebec+g_mississippi 
+g_quebec + g_mississippi 
 
 
 # Q4
@@ -93,8 +94,25 @@ summary(m_mississippi)
 # for each plant origin. Highlight the differences between Quebec and 
 # Mississippi plants, and use the model results to support your answers.
 
-# ENTER YOUR ANSWER HERE as COMMENT:
+# ENTER YOUR ANSWER HERE as COMMENT: 
 # (no coding required for this question) 
+
+#For Quebec originated plants, concentration of CO2 had a significant positive
+#effect on the rate of CO2 assimilation (Estimate = 0.022 and Pr(>|t|) < 0.05).
+#Treatment (chilled or unchilled) did not have significant effect on the rate 
+#of CO2 assimilation (Pr(>|t|) = 0.852).
+#Since the interactions between concentration and treatment is insignificant
+#(Pr(>|t|= 0.852), concentration alone show higher positive effect on the CO2
+# assimilation regardless of chilling or non-chilling treatments.
+#
+#
+#For Mississippi originated plants, concentration of CO2 had a significant positive
+#effect on the rate of CO2 assimilation (Estimate =  0.017 and Pr(>|t|) < 0.05).
+#Treatment also had significant negative effect on the rate of CO2 assimilation 
+#(Estimate = -5.91 and Pr(>|t|) =  0.0233). 
+#Since the interactions between concentration and treatment is also significant
+#(Estimate = -0.0097 and Pr(>|t|) = 0.0482) chilling when also increasing CO2 
+#concentration will lead to less C02 assimilation compared non-chilled treatment.
 
 
 # BCI data ----------------------------------------------------------------
@@ -116,6 +134,7 @@ data("BCI.env")
 # community composition, and diversity patterns in tropical forests.
 
 print(BCI)
+
 
 # The following code transforms the BCI dataset from wide to long format. 
 # Originally, each plot was a row and each species a column. 
@@ -161,12 +180,24 @@ df_env <- BCI.env %>%
 
 # Q6
 # Convert column names of `df_env` to lowercase and reassign to `df_env`
-
+colnames(df_env) <- str_to_lower(colnames(df_env))
 
 # Q7
 # In `df_env`, some environmental variables have no variation between plots
 # (i.e., the same value for all plots). Identify these columns and remove them
 # from the dataframe. Assign the resulting dataframe to `df_env_sub`.
+
+unique(df_env$utm.ew)
+unique(df_env$utm.ns)
+unique(df_env$precipitation)
+unique(df_env$elevation)
+unique(df_env$age.cat)
+unique(df_env$geology)
+unique(df_env$habitat)
+unique(df_env$stream)
+unique (df_env$envhet)
+
+df_env_sub <- select(df_env, -c(precipitation, elevation, geology))
 
 
 # Q8
@@ -176,13 +207,19 @@ df_env <- BCI.env %>%
 # - n1: count of the most dominant species (maximum count among species)
 # - p: proportion of the most abundant species (n1 / n_sum)
 # Assign the resulting dataframe to `df_n`.
-
+df_n <- df_bci %>% 
+  group_by(plot) %>% 
+  summarize(n_sum = sum(count),
+            n1 = max(count),
+            p = n1/n_sum)
 
 # Q9
 # Combine the summary data (`df_n`) with the environmental variables
 # (`df_env_sub`) for each plot. Assign the resulting dataframe to `df_m`.
 
-
+df_m <- left_join(df_env_sub, 
+                  df_n, 
+                  by = "plot")
 # Q10
 # Develop a statistical model to explain variation in the proportion of the dominant
 # species in each plot. Use `EnvHet`, `Stream`, and `Habitat` as predictors.
