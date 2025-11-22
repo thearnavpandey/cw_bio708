@@ -228,3 +228,19 @@ df_m <- left_join(df_env_sub,
 # rather than the goodness of fit, and report which variables are included in 
 # the best predictive model as a comment.
 
+m <- lm(p ~ envhet + stream + habitat,
+              data = df_m)
+
+summary (m)
+
+library(MuMIn)
+options(na.action = "na.fail")
+
+m_set <- dredge(m, rank = "AIC")
+
+subset(m_set, delta < 2)
+
+# Model 3 is the best predictive model with lowest AIC (-175). Habitat is the
+# only variable included in this model.
+
+
