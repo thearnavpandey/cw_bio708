@@ -4,7 +4,6 @@
 
 library(tidyverse)
 
-pacman::p_load(tidyverse, patchwork)
 
 # CO2 dataset -------------------------------------------------------------
 
@@ -55,6 +54,7 @@ g_mississippi <- df_co2 %>%
   labs (x = "Ambient CO2 concentration (mL/L)",
         y = "CO2 assimilation rate (µmol/m²/sec)")
 
+library(patchwork)
 g_quebec + g_mississippi 
 
 
